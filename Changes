@@ -3,3 +3,6 @@ Revision history for TAP-Filter
 0.01    2008-06-07
         - Initial release.
 
+0.02    2008-07-04
+        - Altered result creation mechanism to work with
+          Test::Harness 3.12+

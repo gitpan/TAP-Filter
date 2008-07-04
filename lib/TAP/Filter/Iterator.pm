@@ -79,11 +79,11 @@ TAP::Filter::Iterator - A TAP filter
 
 =head1 VERSION
 
-This document describes TAP::Filter::Iterator version 0.01
+This document describes TAP::Filter::Iterator version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -524,7 +524,7 @@ Andy Armstrong  C<< <andy.armstrong@messagesystems.com> >>
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.
 
-Copyright (c) 2005-2008, Message Systems, Inc.
+Copyright (c) 2008, Message Systems, Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or

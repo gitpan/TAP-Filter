@@ -2,7 +2,7 @@ package TAP::Filter;
 
 use warnings;
 use strict;
-use Carp;
+use Carp qw( confess croak );
 use TAP::Filter::Iterator;
 
 use base qw( TAP::Harness );
@@ -13,11 +13,11 @@ TAP::Filter - Filter TAP stream within TAP::Harness
 
 =head1 VERSION
 
-This document describes TAP::Filter version 0.01
+This document describes TAP::Filter version 0.02
 
 =cut
 
-our $VERSION = '0.01';
+our $VERSION = '0.02';
 
 =head1 SYNOPSIS
 
@@ -250,6 +250,29 @@ Text explaining why the test is a skip or todo.
 
 =cut
 
+sub _load_result_class {
+    my @classes = (
+        [ 'TAP::Parser::ResultFactory' => 'make_result' ],
+        [ 'TAP::Parser::Result'        => 'new' ]
+    );
+
+    for my $ctor ( @classes ) {
+        my ( $class, $method ) = @$ctor;
+        eval "use $class ()";
+        unless ( $@ ) {
+            return $ctor;
+        }
+    }
+
+    confess "Can't load a suitable TAP::Parser::Result"
+      . " factory class, tried ", join( ', ', @classes ), "\n";
+}
+
+{
+    my $result_class = undef;
+    sub _result_class { @{ $result_class ||= _load_result_class } }
+}
+
 sub _trim {
     my $data = shift;
     return '' unless defined $data;
@@ -304,7 +327,8 @@ sub _make_raw {
         }
 
         $spec{raw} = _make_raw( \%spec );
-        return TAP::Parser::Result->new( \%spec );
+        my ( $cl, $method ) = _result_class();
+        return $cl->$method( \%spec );
     }
 }
 
@@ -340,7 +364,7 @@ Andy Armstrong  C<< <andy.armstrong@messagesystems.com> >>
 This module is free software; you can redistribute it and/or
 modify it under the same terms as Perl itself. See L<perlartistic>.
 
-Copyright (c) 2005-2008, Message Systems, Inc.
+Copyright (c) 2008, Message Systems, Inc.
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or
