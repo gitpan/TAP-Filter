@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:                TAP-Filter
-version:             0.02
+version:             0.03
 abstract:            Filter TAP stream within TAP::Harness
 license:             perl
 author:              

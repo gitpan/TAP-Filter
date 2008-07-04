@@ -13,11 +13,11 @@ TAP::Filter - Filter TAP stream within TAP::Harness
 
 =head1 VERSION
 
-This document describes TAP::Filter version 0.02
+This document describes TAP::Filter version 0.03
 
 =cut
 
-our $VERSION = '0.02';
+our $VERSION = '0.03';
 
 =head1 SYNOPSIS
 
@@ -250,17 +250,19 @@ Text explaining why the test is a skip or todo.
 
 =cut
 
-sub _load_result_class {
+sub _load_result_maker {
     my @classes = (
         [ 'TAP::Parser::ResultFactory' => 'make_result' ],
         [ 'TAP::Parser::Result'        => 'new' ]
     );
 
     for my $ctor ( @classes ) {
-        my ( $class, $method ) = @$ctor;
-        eval "use $class ()";
+        my ( $pkg, $method ) = @$ctor;
+        eval "use $pkg ()";
         unless ( $@ ) {
-            return $ctor;
+            return sub {
+                return $pkg->$method( @_ );
+            };
         }
     }
 
@@ -269,8 +271,8 @@ sub _load_result_class {
 }
 
 {
-    my $result_class = undef;
-    sub _result_class { @{ $result_class ||= _load_result_class } }
+    my $result_maker = undef;
+    sub _result_maker { $result_maker ||= _load_result_maker }
 }
 
 sub _trim {
@@ -327,8 +329,7 @@ sub _make_raw {
         }
 
         $spec{raw} = _make_raw( \%spec );
-        my ( $cl, $method ) = _result_class();
-        return $cl->$method( \%spec );
+        return _result_maker()->( \%spec );
     }
 }
 
