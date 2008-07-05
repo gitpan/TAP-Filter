@@ -6,7 +6,7 @@ use Test::Deep;
 
 use base qw(Exporter);
 
-our @EXPORT = our @EXPORT_OK = qw( is_result is_plan is_test );
+our @EXPORT = qw( is_result is_plan is_test );
 
 sub is_result {
     return isa( 'TAP::Parser::Result' );

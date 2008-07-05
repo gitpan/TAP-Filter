@@ -79,11 +79,11 @@ TAP::Filter::Iterator - A TAP filter
 
 =head1 VERSION
 
-This document describes TAP::Filter::Iterator version 0.03
+This document describes TAP::Filter::Iterator version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 

@@ -11,3 +11,5 @@ Revision history for TAP-Filter
         - Push another release because something went wrong with the
           version number last time.
 
+0.04    2008-07-05
+        - Add missing Storable dependency.

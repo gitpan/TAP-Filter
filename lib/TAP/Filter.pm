@@ -13,11 +13,11 @@ TAP::Filter - Filter TAP stream within TAP::Harness
 
 =head1 VERSION
 
-This document describes TAP::Filter version 0.03
+This document describes TAP::Filter version 0.04
 
 =cut
 
-our $VERSION = '0.03';
+our $VERSION = '0.04';
 
 =head1 SYNOPSIS
 
